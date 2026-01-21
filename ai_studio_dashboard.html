@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base target="_top">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dageeb Bright Enterprise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script>
+      tailwind.config = { 
+        theme: { 
+          extend: { 
+            fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] }, 
+            colors: { 
+              slate: { 50: '#f8fafc', 100: '#f1f5f9', 800: '#1e293b', 900: '#0f172a' },
+              primary: { 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8' }
+            },
+            boxShadow: {
+              'soft': '0 2px 10px rgba(0,0,0,0.03)',
+              'float': '0 10px 40px -10px rgba(0,0,0,0.08)'
+            }
+          } 
+        } 
+      }
+    </script>
+
+    <style>
+      body { background-color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; display: flex; height: 100vh; overflow: hidden; color: #1e293b; }
+      
+      /* SIDEBAR */
+      aside { 
+          width: 260px; 
+          background: #ADD8E6; 
+          border-right: 1px solid #e2e8f0;
+          display: flex; flex-direction: column; flex-shrink: 0; 
+          z-index: 20;
+      }
+      .brand { padding: 32px 24px; border-bottom: 1px solid rgba(255,255,255,0.3); }
+      .nav-group { padding: 24px 16px; flex: 1; overflow-y: auto; }
+      .nav-item { 
+          display: flex; items-center; gap: 12px; padding: 12px 16px; 
+          border-radius: 10px; font-size: 0.9rem; font-weight: 600; cursor: pointer; color: #475569;
+          transition: all 0.2s ease-in-out;
+      }
+      .nav-item:hover { background: rgba(255,255,255,0.5); color: #0f172a; }
+      .nav-item.active { background: #ffffff; color: #2563eb; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+      .nav-icon { width: 20px; text-align: center; font-size: 1.1em; }
+      main { flex: 1; overflow-y: auto; padding: 40px; background: #f8fafc; position: relative; }
+      .card { background: white; border-radius: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); border: 1px solid #f1f5f9; transition: transform 0.2s; }
+      .card:hover { transform: translateY(-3px); box-shadow: 0 15px 30px -5px rgba(0,0,0,0.08); border-color: #e2e8f0; }
+      th { position: sticky; top: 0; background: #ffffff; z-index: 10; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.05em; color: #64748b; font-weight: 700; padding: 16px 24px; text-align: left; border-bottom: 2px solid #f1f5f9; }
+      td { padding: 16px 24px; border-bottom: 1px solid #f8fafc; font-size: 0.9rem; color: #334155; vertical-align: middle; }
+      tr:hover { background-color: #f8fafc; }
+      .modal { display: none; position: fixed; z-index: 50; inset: 0; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
+      .modal.show { display: flex; animation: fadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+      .modal-box { background: white; border-radius: 24px; width: 95%; max-width: 950px; max-height: 92vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); border: 1px solid #e2e8f0; }
+      @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+      .btn-primary { background: #0f172a; color: white; transition: all 0.2s; }
+      .btn-primary:hover { background: #1e293b; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2); }
+      .badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.025em; }
+      @media print { aside, .no-print { display: none; } main { padding: 0; } }
+    </style>
+</head>
+<body>
+
+    <aside>
+        <div class="brand">
+            <div class="flex items-center gap-3">
+                <div class="h-10 w-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg overflow-hidden">
+                    <img src="https://drive.google.com/thumbnail?id=1kv4T4jp2eySxcctuVyHyTqaaevSEVNE2&sz=w1000" class="h-full w-full object-contain">
+                </div>
+                <div>
+                    <h1 class="text-slate-900 font-extrabold text-sm tracking-tight leading-tight">DAGEEB BRIGHT ENTERPRISE</h1>
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">SUMMARY</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-group">
+            <div class="nav-label" style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #475569; margin-bottom: 10px;">Main Menu</div>
+            <div class="nav-item active" onclick="switchView('sales')" id="nav-sales">
+                <i class="fas fa-home nav-icon"></i> <span>DASHBOARD</span>
+            </div>
+            <div class="nav-item" onclick="switchView('incoming')" id="nav-incoming">
+                <i class="fas fa-ship nav-icon"></i> <span>INCOMING</span>
+            </div>
+            
+            <div class="nav-label" style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #475569; margin: 30px 0 10px;">Utilities</div>
+            <div class="nav-item" onclick="openCalculator()">
+                <i class="fas fa-calculator nav-icon"></i> <span>Profit Calculator</span>
+            </div>
+            <div class="nav-item" onclick="window.print()">
+                <i class="fas fa-file-export nav-icon"></i> <span>Export Report</span>
+            </div>
+        </div>
+
+        <div class="p-6 border-t border-slate-400/20 bg-slate-50/50">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xs font-bold">FY</div>
+                <div><p class="text-xs text-slate-500 font-bold uppercase">Year</p><p class="text-[10px] text-slate-400">Database Connection</p></div>
+            </div>
+            <select id="yearSelector" onchange="changeSheet()" class="w-full bg-white text-slate-700 text-sm border border-slate-200 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer shadow-sm"></select>
+        </div>
+    </aside>
+
+    <main>
+        <div id="loader" class="flex flex-col items-center justify-center h-full"><div class="w-16 h-16 border-4 border-slate-100 border-t-blue-600 rounded-full animate-spin"></div><p class="mt-6 text-slate-400 text-xs font-bold tracking-widest uppercase">Secure Sync...</p></div>
+
+        <div id="view-sales" class="hidden space-y-8 animate-[fadeUp_0.5s_ease-out]">
+            <div class="flex flex-col md:flex-row justify-between items-end pb-2">
+                <div><h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Financial Overview</h2><div class="flex items-center gap-2 mt-1"><span class="h-2 w-2 rounded-full bg-emerald-500"></span><p class="text-slate-500 font-medium text-sm">Live metrics for <span id="tableYear" class="text-blue-600 font-bold">...</span></p></div></div>
+                <div class="flex gap-2"><div class="relative group"><input type="text" id="salesSearch" onkeyup="filterSales()" placeholder="Search..." class="pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none w-64 shadow-sm transition group-hover:border-slate-300"><i class="fas fa-search absolute left-3 top-3 text-slate-400 text-xs group-hover:text-blue-500 transition"></i></div><button onclick="loadSalesData()" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-4 py-2.5 rounded-xl font-bold text-sm transition shadow-sm flex items-center gap-2"><i class="fas fa-sync-alt"></i></button></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="card p-6 relative overflow-hidden group"><div class="flex justify-between items-start mb-4"><div class="p-3 bg-blue-50 rounded-xl text-blue-600"><i class="fas fa-wallet text-lg"></i></div><span class="text-xs font-bold bg-slate-50 text-slate-500 px-2 py-1 rounded-lg">SALES</span></div><p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Gross Revenue</p><h3 class="text-2xl font-extrabold text-slate-900 tracking-tight mt-1 font-mono" id="kpi-revenue">--</h3></div>
+                <div class="card p-6 relative overflow-hidden group"><div class="flex justify-between items-start mb-4"><div class="p-3 bg-emerald-50 rounded-xl text-emerald-600"><i class="fas fa-chart-line text-lg"></i></div><span class="text-xs font-bold bg-emerald-50 text-emerald-600 px-2 py-1 rounded-lg">NET</span></div><p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Net Profit</p><h3 class="text-2xl font-extrabold text-emerald-600 tracking-tight mt-1 font-mono" id="kpi-profit">--</h3></div>
+                <div class="card p-6 relative overflow-hidden group"><div class="flex justify-between items-start mb-4"><div class="p-3 bg-orange-50 rounded-xl text-orange-600"><i class="fas fa-truck-loading text-lg"></i></div></div><p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Logistics Cost</p><h3 class="text-2xl font-extrabold text-slate-900 tracking-tight mt-1 font-mono" id="kpi-expenses">--</h3><p class="text-[10px] text-slate-400 mt-1 font-bold">Clearance & Ops Only</p></div>
+                <div class="card p-6 relative overflow-hidden group"><div class="flex justify-between items-start mb-4"><div class="p-3 bg-slate-100 rounded-xl text-slate-600"><i class="fas fa-box text-lg"></i></div></div><p class="text-slate-500 text-xs font-bold uppercase tracking-wider">TOTAL CONTAINERS</p><h3 class="text-2xl font-extrabold text-slate-900 tracking-tight mt-1 font-mono" id="kpi-count">--</h3></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="card p-6 lg:col-span-1"><div class="mb-6 flex justify-between items-center"><h4 class="text-sm font-bold text-slate-800">FX Volatility</h4><span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded-md">USD/GHS</span></div><div class="h-64 w-full relative"><canvas id="rateChart"></canvas></div></div>
+                <div class="card p-6 lg:col-span-2"><div class="mb-6 flex justify-between items-center"><h4 class="text-sm font-bold text-slate-800">Monthly Financial Performance</h4><div class="flex gap-2"><span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md">Revenue</span><span class="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded-md">Expense</span><span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">Profit</span></div></div><div class="h-64 w-full relative"><canvas id="lineChart"></canvas></div></div>
+            </div>
+
+            <div class="card overflow-hidden">
+                <div class="px-6 py-5 border-b border-slate-100 bg-white flex justify-between items-center"><h3 class="font-bold text-slate-800 text-sm uppercase tracking-wide">Detailed Manifest</h3><div class="text-xs font-bold text-slate-400 bg-slate-50 px-2 py-1 rounded"><span id="rowCount">0</span> Records</div></div>
+                <div class="overflow-x-auto max-h-[500px]">
+                    <table class="w-full text-left text-slate-600">
+                        <thead class="bg-white"><tr><th class="pl-8">Date</th><th>Container / BL</th><th>Product / Make</th><th>Line</th><th class="text-right">Revenue</th><th class="text-right">Net Profit</th><th class="text-center pr-8">View</th></tr></thead>
+                        <tbody id="salesTableBody" class="divide-y divide-slate-50 bg-white"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-incoming" class="hidden space-y-8 animate-[fadeUp_0.5s_ease-out]">
+            <header class="flex justify-between items-end pb-2"><div><h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">INCOMING CONTAINERS</h2><p class="text-slate-500 font-medium mt-1">LIVE STATUS</p></div><button onclick="loadIncomingData()" class="btn-primary px-5 py-2.5 rounded-xl font-bold text-sm shadow-lg flex items-center gap-2"><i class="fas fa-sync-alt"></i> Refresh</button></header>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card p-8 border-l-4 border-blue-600 bg-blue-50/50"><p class="text-blue-600 text-xs font-bold uppercase tracking-widest">En Route</p><h3 class="text-4xl font-extrabold mt-3 font-mono text-slate-900" id="inc-count">--</h3><div class="flex items-center gap-2 mt-2"><span class="h-2 w-2 rounded-full bg-blue-500 animate-pulse"></span><p class="text-sm text-slate-500 font-medium">Sailing</p></div></div>
+                <div class="card p-8 border-l-4 border-indigo-600 bg-indigo-50/50"><p class="text-indigo-600 text-xs font-bold uppercase tracking-widest">Next Arrival</p><h3 class="text-2xl font-bold mt-4 truncate text-slate-900" id="inc-next">--</h3><p class="text-sm text-slate-500 font-mono mt-1 opacity-80 truncate" id="inc-next-c">--</p></div>
+                <div class="card p-8 border-l-4 border-orange-500 bg-orange-50/50"><p class="text-orange-600 text-xs font-bold uppercase tracking-widest">Action Required</p><h3 class="text-4xl font-extrabold text-slate-900 mt-3 font-mono" id="inc-action">--</h3><p class="text-sm mt-1 text-slate-500 font-bold">At Port (Not Cleared)</p></div>
+            </div>
+            <div class="card overflow-hidden"><div class="px-6 py-5 border-b border-slate-100 bg-white"><h3 class="font-bold text-slate-800 text-sm uppercase tracking-wide">Arrival Schedule</h3></div><div class="overflow-x-auto"><table class="w-full text-left text-slate-600"><thead><tr><th class="pl-8">Status</th><th>ETA</th><th>Container / BL</th><th>Product / Brand</th><th>Shipping Line</th><th class="pr-8">Origin</th></tr></thead><tbody id="incomingTableBody" class="divide-y divide-slate-50 bg-white"></tbody></table></div></div>
+        </div>
+    </main>
+
+    <div id="calcModal" class="modal"><div class="modal-box max-w-md"><div class="bg-slate-900 px-6 py-4 flex justify-between items-center text-white"><h3 class="font-bold text-lg"><i class="fas fa-calculator text-blue-400 mr-2"></i> Profit Calculator</h3><button onclick="document.getElementById('calcModal').classList.remove('show')" class="text-slate-400 hover:text-white transition"><i class="fas fa-times text-xl"></i></button></div><div class="p-6 bg-white space-y-4"><div class="grid grid-cols-2 gap-4"><div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 block">Cost ($)</label><input id="calc-usd" type="number" class="w-full border rounded p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="20000"></div><div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 block">Rate (GHS)</label><input id="calc-rate" type="number" class="w-full border rounded p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="15.5"></div></div><div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 block">Total Clearance (GHS)</label><input id="calc-clearance" type="number" class="w-full border rounded p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Duty + Transport"></div><div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 block">Quantity</label><input id="calc-qty" type="number" class="w-full border rounded p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="2700"></div><hr><div><label class="text-[10px] font-bold text-blue-600 uppercase tracking-wider mb-1 block">Target Selling Price (Optional)</label><input id="calc-target" type="number" class="w-full border border-blue-200 bg-blue-50 rounded p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Leave empty for Break-Even"></div><button onclick="calculateSmart()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">Calculate</button><div id="calc-result" class="hidden bg-slate-50 p-4 rounded border border-slate-200 mt-2"><div class="flex justify-between text-sm text-slate-600"><span>Total Cost:</span> <span class="font-bold text-slate-900 font-mono" id="res-total">--</span></div><div class="flex justify-between text-sm mt-1 border-t border-slate-200 pt-1"><span>Cost Per Unit:</span> <span class="font-bold text-slate-900 font-mono" id="res-unit">--</span></div><div class="mt-3 pt-2 border-t border-slate-200"><span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider" id="res-output-label"></span><div class="text-2xl font-bold mt-1" id="res-output-value"></div></div></div></div></div></div>
+
+    <div id="detailModal" class="modal"><div class="modal-box"><div class="bg-white px-8 py-6 flex justify-between items-center border-b border-slate-100 sticky top-0 z-20"><div><h3 class="font-bold text-xl flex items-center gap-2 text-slate-800"><i class="fas fa-file-invoice text-blue-600"></i> <span id="modalTitleText">Details</span></h3><p class="text-slate-400 text-xs mt-1 font-bold uppercase tracking-wider">Financial Audit</p></div><button onclick="document.getElementById('detailModal').classList.remove('show')" class="text-slate-400 hover:text-slate-800 transition"><i class="fas fa-times text-2xl"></i></button></div><div id="modalBody" class="p-8 bg-white"></div></div></div>
+
+    <script>
+      let salesData = [];
+      const fmt = new Intl.NumberFormat('en-GH', { style: 'currency', currency: 'GHS' });
+      const fmtUSD = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+
+      window.onload = function() { populateYearSelector(); };
+
+      function switchView(view) {
+          document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden'));
+          document.getElementById('view-'+view).classList.remove('hidden');
+          document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+          document.getElementById('nav-'+view).classList.add('active');
+          if(view === 'incoming') loadIncomingData();
+      }
+
+      function populateYearSelector() {
+          google.script.run.withSuccessHandler(names => {
+              const sel = document.getElementById('yearSelector'); sel.innerHTML = '';
+              if (names.length === 0) names = ["CONTAINER RECORDS 2025"];
+              names.forEach(n => { let opt = document.createElement('option'); opt.value = n; opt.innerText = n.replace('CONTAINER RECORDS ', ''); sel.appendChild(opt); });
+              loadSalesData();
+          }).getAvailableSheets();
+      }
+      function changeSheet() { loadSalesData(); }
+
+      function loadSalesData() {
+          const sheet = document.getElementById('yearSelector').value;
+          if(sheet) document.getElementById('tableYear').innerText = sheet.replace('CONTAINER RECORDS ', '');
+          document.getElementById('loader').classList.remove('hidden');
+          document.getElementById('view-sales').classList.add('hidden');
+          google.script.run.withSuccessHandler(renderSales).getDashboardData(sheet);
+      }
+
+      function renderSales(data) {
+          document.getElementById('loader').classList.add('hidden');
+          document.getElementById('view-sales').classList.remove('hidden');
+          salesData = data;
+          let rev=0, profit=0, cost=0;
+          const tbody = document.getElementById('salesTableBody'); tbody.innerHTML = '';
+          if(!data || !data.length) { tbody.innerHTML='<tr><td colspan="7" class="p-12 text-center text-slate-400">No Records Found</td></tr>'; return; }
+          data.forEach((r, i) => {
+              // --- FIXED MATH: Profit = Sales - (ProductCost + LogisticsCost) ---
+              let expenses = (r.productCostGHS || 0) + (r.totalAmount || 0);
+              let p = (r.totalSales || 0) - expenses;
+              rev += r.totalSales; 
+              cost += r.totalAmount; // Only Logistics for the KPI
+              profit += p;
+              let tr = document.createElement('tr'); tr.className = "hover:bg-slate-50 transition border-b border-slate-100 group";
+              tr.innerHTML = `
+              <td class="pl-8 py-4 whitespace-nowrap font-medium text-slate-600">${r.date}</td>
+              <td class="py-4"><div class="font-bold text-blue-600 font-mono">${r.containerNo}</div><div class="text-[10px] text-slate-400 font-medium uppercase mt-0.5 tracking-wider">${r.billOfLading}</div></td>
+              <td class="py-4"><div class="font-medium text-slate-700">${r.product}</div><div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">${r.shipper}</div></td>
+              <td class="py-4"><span class="badge bg-slate-100 text-slate-600 border border-slate-200 text-[10px] font-bold px-2 py-1 rounded uppercase">${r.shippingLine}</span></td>
+              <td class="py-4 text-right font-medium text-slate-700 font-mono">${fmt.format(r.totalSales)}</td>
+              <td class="py-4 text-right font-bold font-mono ${p>=0?'text-emerald-600':'text-rose-600'}">${fmt.format(p)}</td>
+              <td class="py-4 text-center pr-8 no-print"><button onclick="openModal(${i})" class="text-slate-400 hover:text-blue-600 transition p-2 hover:bg-blue-50 rounded-lg"><i class="fas fa-eye"></i></button></td>`;
+              tbody.appendChild(tr);
+          });
+          document.getElementById('kpi-revenue').innerText = fmt.format(rev);
+          document.getElementById('kpi-profit').innerText = fmt.format(profit);
+          document.getElementById('kpi-expenses').innerText = fmt.format(cost);
+          document.getElementById('kpi-count').innerText = data.length;
+          document.getElementById('rowCount').innerText = data.length;
+          renderCharts(data);
+      }
+
+      function openCalculator() { document.getElementById('calcModal').classList.add('show'); }
+      function calculateSmart() {
+          let usd = parseFloat(document.getElementById('calc-usd').value)||0;
+          let rate = parseFloat(document.getElementById('calc-rate').value)||0;
+          let clearance = parseFloat(document.getElementById('calc-clearance').value)||0;
+          let qty = parseFloat(document.getElementById('calc-qty').value)||1;
+          let targetPrice = parseFloat(document.getElementById('calc-target').value);
+          let totalCost = (usd * rate) + clearance;
+          let costPerUnit = totalCost / qty;
+          document.getElementById('res-total').innerText = fmt.format(totalCost);
+          document.getElementById('res-unit').innerText = fmt.format(costPerUnit);
+          document.getElementById('calc-result').classList.remove('hidden');
+          if (targetPrice > 0) {
+              let profitPerUnit = targetPrice - costPerUnit;
+              let totalProfit = profitPerUnit * qty;
+              document.getElementById('res-output-label').innerText = "Estimated Profit";
+              document.getElementById('res-output-value').className = "text-2xl font-bold font-mono " + (profitPerUnit >= 0 ? "text-emerald-600" : "text-rose-600");
+              document.getElementById('res-output-value').innerText = fmt.format(totalProfit);
+          } else {
+              let sellPrice = costPerUnit * 1.10; 
+              document.getElementById('res-output-label').innerText = "Rec. Price (+10%)";
+              document.getElementById('res-output-value').className = "text-2xl font-bold text-blue-600 font-mono";
+              document.getElementById('res-output-value').innerText = fmt.format(sellPrice);
+          }
+      }
+
+      function openModal(i) {
+          let r = salesData[i];
+          let expenses = (r.productCostGHS || 0) + (r.totalAmount || 0);
+          let p = (r.totalSales || 0) - expenses;
+          document.getElementById('modalTitleText').innerText = r.containerNo;
+          let html = `<div class="grid grid-cols-1 lg:grid-cols-12 gap-10"><div class="lg:col-span-5 space-y-8"><div><h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Logistics Profile</h4><div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 space-y-4 text-sm text-slate-600"><div class="flex justify-between border-b border-slate-200 pb-2"><span>B/L Number</span><span class="font-bold text-slate-900 font-mono">${r.billOfLading}</span></div><div class="flex justify-between border-b border-slate-200 pb-2"><span>Line</span><span class="font-bold text-slate-900">${r.shippingLine}</span></div><div class="flex justify-between border-b border-slate-200 pb-2"><span>Shipper</span><span class="font-bold text-slate-900">${r.shipper}</span></div><div class="flex justify-between pb-1"><span>Port</span><span class="font-bold text-slate-900">${r.port}</span></div></div></div><div><h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Inventory</h4><div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 space-y-4 text-sm text-slate-600"><div class="flex justify-between border-b border-slate-200 pb-2"><span>Product</span><span class="font-bold text-slate-900">${r.product}</span></div><div class="flex justify-between border-b border-slate-200 pb-2"><span>Quantity</span><span class="font-bold text-slate-900 font-mono">${r.quantity}</span></div><div class="flex justify-between pb-1"><span>Unit Price</span><span class="font-bold text-slate-900 font-mono">${fmt.format(r.unitPrice)}</span></div></div></div></div><div class="lg:col-span-7 bg-white p-8 rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/50"><h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Financial Ledger</h4><div class="space-y-4 text-sm"><div class="flex justify-between items-center"><span class="text-slate-600 font-medium">Import Product Cost</span><span class="font-bold text-slate-800 font-mono text-lg">${fmt.format(r.productCostGHS)}</span></div><div class="text-[11px] font-bold text-blue-500 text-right -mt-3 mb-2 bg-blue-50 inline-block ml-auto px-2 py-1 rounded">(${fmtUSD.format(r.costUSD)} @ ${r.rate})</div><div class="bg-slate-50 p-6 rounded-2xl border border-slate-100"><p class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">Logistics Breakdown</p><div class="grid grid-cols-2 gap-x-8 gap-y-3"><div class="flex justify-between border-b border-slate-200 pb-1"><span>Duty</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.duty)}</span></div><div class="flex justify-between border-b border-slate-200 pb-1"><span>Transport</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.transport)}</span></div><div class="flex justify-between border-b border-slate-200 pb-1"><span>Ship Line</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.shipLinePay)}</span></div><div class="flex justify-between border-b border-slate-200 pb-1"><span>GPHA</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.gpha)}</span></div><div class="flex justify-between border-b border-slate-200 pb-1"><span>FDA/Vet</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.fda)}</span></div><div class="flex justify-between border-b border-slate-200 pb-1"><span>Agent</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.agent)}</span></div><div class="flex justify-between border-b border-slate-200 pb-1"><span>Storage</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.storage)}</span></div><div class="flex justify-between border-b border-slate-200 pb-1"><span>Discharge</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.discharging)}</span></div></div>${r.demurrage > 0 ? `<div class="flex justify-between text-red-600 font-bold bg-red-50 px-3 py-2 rounded-lg mt-4 text-xs"><span>Demurrage Penalty</span><span>${fmt.format(r.demurrage)}</span></div>` : ''}<div class="flex justify-between pt-4 mt-2 font-bold text-orange-600 text-base"><span>Total Logistics</span><span class="font-mono">${fmt.format(r.totalAmount)}</span></div></div><div class="flex justify-between items-center pt-2"><span class="text-slate-500 font-bold">TOTAL EXPENSES</span><span class="font-bold text-slate-800 font-mono">${fmt.format(expenses)}</span></div><div class="flex justify-between items-center"><span class="text-slate-500 font-bold">TOTAL REVENUE</span><span class="font-bold text-blue-600 font-mono text-lg">${fmt.format(r.totalSales)}</span></div><div class="mt-6 p-6 rounded-2xl ${p>=0?'bg-emerald-50 border border-emerald-100':'bg-rose-50 border border-rose-100'} flex justify-between items-center shadow-inner"><span class="text-xs font-bold uppercase tracking-wider ${p>=0?'text-emerald-600':'text-rose-600'}">Net Profit</span><span class="text-3xl font-extrabold font-mono ${p>=0?'text-emerald-700':'text-rose-700'}">${fmt.format(p)}</span></div></div></div></div>`;
+          document.getElementById('modalBody').innerHTML = html;
+          document.getElementById('detailModal').classList.add('show');
+      }
+
+      function loadIncomingData() {
+         document.getElementById('incomingTableBody').innerHTML = '<tr><td colspan="6" class="p-8 text-center text-slate-400">Loading...</td></tr>';
+         google.script.run.withSuccessHandler(renderIncoming).getIncomingData();
+      }
+      function renderIncoming(data) {
+         const tbody = document.getElementById('incomingTableBody'); tbody.innerHTML = '';
+         if(!data || !data.length) { tbody.innerHTML='<tr><td colspan="6" class="p-8 text-center text-slate-400">No Incoming Data</td></tr>'; return; }
+         let enRoute=0, atPort=0, next="--", nextC="--";
+         let future = data.filter(d => !d.arrived && !d.cleared && d.daysLeft >= 0);
+         if(future.length) { next=future[0].eta; nextC=future[0].containerNo; }
+         data.forEach(r => {
+             if(r.arrived && !r.cleared) atPort++; else if(!r.cleared) enRoute++;
+             let badge = r.cleared ? '<span class="badge bg-emerald-50 text-emerald-600 border border-emerald-100">CLEARED</span>' : (r.arrived ? '<span class="badge bg-orange-50 text-orange-600 border border-orange-100"><i class="fas fa-anchor mr-1"></i> AT PORT</span>' : `<span class="badge bg-blue-50 text-blue-600 border border-blue-100"><i class="fas fa-water mr-1"></i> SAILING (${r.daysLeft}d)</span>`);
+             tbody.innerHTML += `<tr class="border-b border-gray-100 hover:bg-gray-50 transition"><td class="pl-8 py-4">${badge}</td><td class="py-4 font-bold text-slate-700">${r.eta}</td><td class="px-6 py-4"><div class="font-bold text-slate-800 font-mono">${r.containerNo}</div><div class="text-[10px] text-slate-400 font-medium uppercase mt-0.5 tracking-wider">${r.blNo}</div></td><td class="py-4"><div class="font-medium text-slate-700">${r.product}</div><div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">${r.brand}</div></td><td class="px-6 py-4 font-bold text-slate-700 text-xs uppercase">${r.shippingLine}</td><td class="pr-8 py-4 text-slate-500 text-sm">${r.country}</td></tr>`;
+         });
+         document.getElementById('inc-count').innerText = enRoute; document.getElementById('inc-action').innerText = atPort;
+         document.getElementById('inc-next').innerText = next; document.getElementById('inc-next-c').innerText = nextC;
+      }
+
+      let rateChartInstance = null; let lineChartInstance = null;
+      function renderCharts(data) {
+        if(rateChartInstance) rateChartInstance.destroy();
+        if(lineChartInstance) lineChartInstance.destroy();
+        const dates = data.map(r=>r.date.substring(5)).reverse(); 
+        const rates = data.map(r=>r.rate).reverse();
+        
+        // RATE CHART with Gradient
+        const ctx1 = document.getElementById('rateChart').getContext('2d');
+        const gradient1 = ctx1.createLinearGradient(0, 0, 0, 400);
+        gradient1.addColorStop(0, 'rgba(79, 70, 229, 0.2)');
+        gradient1.addColorStop(1, 'rgba(79, 70, 229, 0)');
+
+        rateChartInstance = new Chart(ctx1, {
+            type: 'line', 
+            data: { labels: dates, datasets: [{ label: 'USD Rate', data: rates, borderColor: '#4f46e5', borderWidth: 3, tension: 0.4, pointRadius: 0, pointHoverRadius: 6, fill: true, backgroundColor: gradient1 }] },
+            options: { 
+                responsive: true, maintainAspectRatio: false, 
+                interaction: { mode: 'index', intersect: false }, 
+                plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0f172a', titleFont: { family: 'Plus Jakarta Sans' }, bodyFont: { family: 'Plus Jakarta Sans' }, padding: 12, displayColors: false, callbacks: { label: c => 'Rate: GHS ' + c.parsed.y.toFixed(2) } } }, 
+                scales: { x: { display: false }, y: { grid: { borderDash: [4, 4], color: '#f1f5f9' }, ticks: { font: { family: 'Plus Jakarta Sans', size: 10 } } } } 
+            }
+        });
+        
+        // MONTHLY P&L TREND
+        const sortedData = [...data].sort((a,b) => new Date(a.date) - new Date(b.date));
+        const monthlyStats = {};
+        sortedData.forEach(r => {
+            const monthKey = r.date.substring(0, 7); 
+            if (!monthlyStats[monthKey]) monthlyStats[monthKey] = { rev: 0, cost: 0, profit: 0 };
+            let expense = (r.productCostGHS || 0) + (r.totalAmount || 0);
+            monthlyStats[monthKey].rev += (r.totalSales || 0);
+            monthlyStats[monthKey].cost += expense;
+            monthlyStats[monthKey].profit += ((r.totalSales || 0) - expense);
+        });
+        
+        const mLabels = Object.keys(monthlyStats).sort();
+        const mRev = mLabels.map(k => monthlyStats[k].rev);
+        const mCost = mLabels.map(k => monthlyStats[k].cost);
+        const mProfit = mLabels.map(k => monthlyStats[k].profit);
+
+        lineChartInstance = new Chart(document.getElementById('lineChart'), { 
+            type: 'bar', 
+            data: { 
+                labels: mLabels, 
+                datasets: [
+                    { type: 'line', label: 'Net Profit', data: mProfit, borderColor: '#10b981', borderWidth: 3, tension: 0.4, order: 1 },
+                    { label: 'Revenue', data: mRev, backgroundColor: '#3b82f6', borderRadius: 6, order: 2 },
+                    { label: 'Expenses', data: mCost, backgroundColor: '#f97316', borderRadius: 6, order: 3 }
+                ] 
+            }, 
+            options: { 
+                responsive: true, maintainAspectRatio: false, 
+                interaction: { mode: 'index', intersect: false }, 
+                plugins: { legend: { display: true, position: 'top' }, tooltip: { backgroundColor: '#0f172a', bodyFont: { family: 'JetBrains Mono' } } }, 
+                scales: { x: { grid: { display: false } }, y: { grid: { borderDash: [4, 4], color: '#f1f5f9' }, ticks: { callback: v => (v/1000) + 'k', font: { family: 'Plus Jakarta Sans', size: 10 } } } } 
+            } 
+        });
+      }
+      
+      function filterSales() {
+          let t = document.getElementById('salesSearch').value.toLowerCase();
+          let rows = document.getElementById('salesTableBody').getElementsByTagName('tr');
+          for(let r of rows) { r.style.display = r.innerText.toLowerCase().includes(t) ? "" : "none"; }
+      }
+    </script>
+</body>
+</html>
