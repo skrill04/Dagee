@@ -4,7 +4,7 @@
     <base target="_top">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dageeb Bright Enterprise</title>
+    <title>DAGEEB BRIGHT ENTERPRISE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -31,7 +31,6 @@
     <style>
       body { background-color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; display: flex; height: 100vh; overflow: hidden; color: #1e293b; }
       
-      /* SIDEBAR */
       aside { 
           width: 260px; 
           background: #ADD8E6; 
@@ -42,7 +41,7 @@
       .brand { padding: 32px 24px; border-bottom: 1px solid rgba(255,255,255,0.3); }
       .nav-group { padding: 24px 16px; flex: 1; overflow-y: auto; }
       .nav-item { 
-          display: flex; items-center; gap: 12px; padding: 12px 16px; 
+          display: flex; align-items: center; gap: 12px; padding: 12px 16px; 
           border-radius: 10px; font-size: 0.9rem; font-weight: 600; cursor: pointer; color: #475569;
           transition: all 0.2s ease-in-out;
       }
@@ -71,7 +70,7 @@
         <div class="brand">
             <div class="flex items-center gap-3">
                 <div class="h-10 w-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg overflow-hidden">
-                    <img src="https://drive.google.com/thumbnail?id=1kv4T4jp2eySxcctuVyHyTqaaevSEVNE2&sz=w1000" class="h-full w-full object-contain">
+                    <img src="https://drive.google.com/thumbnail?id=1kv4T4jp2eySxcctuVyHyTqaaevSEVNE2&sz=w1000" class="h-full w-full object-contain" alt="Logo">
                 </div>
                 <div>
                     <h1 class="text-slate-900 font-extrabold text-sm tracking-tight leading-tight">DAGEEB BRIGHT ENTERPRISE</h1>
@@ -111,9 +110,35 @@
         <div id="loader" class="flex flex-col items-center justify-center h-full"><div class="w-16 h-16 border-4 border-slate-100 border-t-blue-600 rounded-full animate-spin"></div><p class="mt-6 text-slate-400 text-xs font-bold tracking-widest uppercase">Secure Sync...</p></div>
 
         <div id="view-sales" class="hidden space-y-8 animate-[fadeUp_0.5s_ease-out]">
-            <div class="flex flex-col md:flex-row justify-between items-end pb-2">
-                <div><h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Financial Overview</h2><div class="flex items-center gap-2 mt-1"><span class="h-2 w-2 rounded-full bg-emerald-500"></span><p class="text-slate-500 font-medium text-sm">Live metrics for <span id="tableYear" class="text-blue-600 font-bold">...</span></p></div></div>
-                <div class="flex gap-2"><div class="relative group"><input type="text" id="salesSearch" onkeyup="filterSales()" placeholder="Search..." class="pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none w-64 shadow-sm transition group-hover:border-slate-300"><i class="fas fa-search absolute left-3 top-3 text-slate-400 text-xs group-hover:text-blue-500 transition"></i></div><button onclick="loadSalesData()" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-4 py-2.5 rounded-xl font-bold text-sm transition shadow-sm flex items-center gap-2"><i class="fas fa-sync-alt"></i></button></div>
+            <div class="flex flex-col md:flex-row justify-between items-end pb-2 gap-4">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Financial Overview</h2>
+                    <div class="flex items-center gap-2 mt-1">
+                        <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                        <p class="text-slate-500 font-medium text-sm">Live metrics for <span id="tableYear" class="text-blue-600 font-bold">...</span></p>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-2 items-center">
+                    <div class="relative group">
+                        <input type="text" id="salesSearch" onkeyup="filterSales()" placeholder="Search Container, B/L, Product..." class="pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none w-64 shadow-sm transition group-hover:border-slate-300">
+                        <i class="fas fa-search absolute left-3 top-3.5 text-slate-400 text-xs group-hover:text-blue-500 transition"></i>
+                    </div>
+
+                    <select id="lineFilter" onchange="filterSales()" class="bg-white border border-slate-200 text-slate-700 text-sm rounded-xl py-2.5 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm cursor-pointer">
+                        <option value="">All Shipping Lines</option>
+                    </select>
+
+                    <select id="profitFilter" onchange="filterSales()" class="bg-white border border-slate-200 text-slate-700 text-sm rounded-xl py-2.5 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm cursor-pointer">
+                        <option value="">All Financial Results</option>
+                        <option value="profit">Profitable Only</option>
+                        <option value="loss">Loss Only</option>
+                    </select>
+
+                    <button onclick="loadSalesData()" title="Reload Data" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-4 py-2.5 rounded-xl font-bold text-sm transition shadow-sm flex items-center gap-2">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -170,68 +195,149 @@
       }
 
       function populateYearSelector() {
-          google.script.run.withSuccessHandler(names => {
-              const sel = document.getElementById('yearSelector'); sel.innerHTML = '';
-              if (names.length === 0) names = ["CONTAINER RECORDS 2025"];
-              names.forEach(n => { let opt = document.createElement('option'); opt.value = n; opt.innerText = n.replace('CONTAINER RECORDS ', ''); sel.appendChild(opt); });
-              loadSalesData();
-          }).getAvailableSheets();
+          google.script.run
+            .withSuccessHandler(names => {
+                const sel = document.getElementById('yearSelector'); 
+                sel.innerHTML = '';
+                if (!names || names.length === 0) names = ["CONTAINER RECORDS 2026"];
+                
+                names.forEach(n => { 
+                  let opt = document.createElement('option'); 
+                  opt.value = n; 
+                  opt.innerText = n.replace('CONTAINER RECORDS ', ''); 
+                  sel.appendChild(opt); 
+                });
+                
+                loadSalesData();
+            })
+            .withFailureHandler(err => {
+                console.error("Sheet enumeration failed", err);
+                loadSalesData();
+            })
+            .getAvailableSheets();
       }
+      
       function changeSheet() { loadSalesData(); }
 
       function loadSalesData() {
-          const sheet = document.getElementById('yearSelector').value;
+          const sel = document.getElementById('yearSelector');
+          const sheet = sel ? sel.value : "CONTAINER RECORDS 2026";
+          
           if(sheet) document.getElementById('tableYear').innerText = sheet.replace('CONTAINER RECORDS ', '');
           document.getElementById('loader').classList.remove('hidden');
           document.getElementById('view-sales').classList.add('hidden');
-          google.script.run.withSuccessHandler(renderSales).getDashboardData(sheet);
+          
+          google.script.run
+            .withSuccessHandler(renderSales)
+            .withFailureHandler(err => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('view-sales').classList.remove('hidden');
+                console.error("Failed to fetch dashboard data:", err);
+            })
+            .getDashboardData(sheet);
       }
 
       function renderSales(data) {
           document.getElementById('loader').classList.add('hidden');
           document.getElementById('view-sales').classList.remove('hidden');
-          salesData = data;
+          salesData = data || [];
           let rev=0, profit=0, cost=0;
           const tbody = document.getElementById('salesTableBody'); tbody.innerHTML = '';
-          if(!data || !data.length) { tbody.innerHTML='<tr><td colspan="7" class="p-12 text-center text-slate-400">No Records Found</td></tr>'; return; }
-          data.forEach((r, i) => {
-              // --- FIXED MATH: Profit = Sales - (ProductCost + LogisticsCost) ---
+          
+          if(!salesData || !salesData.length) { 
+            tbody.innerHTML='<tr><td colspan="7" class="p-12 text-center text-slate-400">No Records Found</td></tr>'; 
+            document.getElementById('kpi-revenue').innerText = fmt.format(0);
+            document.getElementById('kpi-profit').innerText = fmt.format(0);
+            document.getElementById('kpi-expenses').innerText = fmt.format(0);
+            document.getElementById('kpi-count').innerText = 0;
+            document.getElementById('rowCount').innerText = 0;
+            return; 
+          }
+
+          const lines = [...new Set(salesData.map(r => r.shippingLine).filter(l => l && l !== '-'))].sort();
+          const lineSelect = document.getElementById('lineFilter');
+          if (lineSelect) {
+            lineSelect.innerHTML = '<option value="">All Shipping Lines</option>' + 
+              lines.map(l => `<option value="${l}">${l}</option>`).join('');
+          }
+
+          salesData.forEach((r, i) => {
               let expenses = (r.productCostGHS || 0) + (r.totalAmount || 0);
               let p = (r.totalSales || 0) - expenses;
-              rev += r.totalSales; 
-              cost += r.totalAmount; // Only Logistics for the KPI
+              rev += (r.totalSales || 0); 
+              cost += (r.totalAmount || 0); 
               profit += p;
-              let tr = document.createElement('tr'); tr.className = "hover:bg-slate-50 transition border-b border-slate-100 group";
+
+              let tr = document.createElement('tr'); 
+              tr.className = "hover:bg-slate-50 transition border-b border-slate-100 group";
+              
+              tr.setAttribute('data-search', `${r.containerNo} ${r.billOfLading} ${r.product} ${r.shipper}`.toLowerCase());
+              tr.setAttribute('data-line', (r.shippingLine || '').toUpperCase());
+              tr.setAttribute('data-profit', p >= 0 ? 'profit' : 'loss');
+
               tr.innerHTML = `
               <td class="pl-8 py-4 whitespace-nowrap font-medium text-slate-600">${r.date}</td>
               <td class="py-4"><div class="font-bold text-blue-600 font-mono">${r.containerNo}</div><div class="text-[10px] text-slate-400 font-medium uppercase mt-0.5 tracking-wider">${r.billOfLading}</div></td>
               <td class="py-4"><div class="font-medium text-slate-700">${r.product}</div><div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">${r.shipper}</div></td>
               <td class="py-4"><span class="badge bg-slate-100 text-slate-600 border border-slate-200 text-[10px] font-bold px-2 py-1 rounded uppercase">${r.shippingLine}</span></td>
-              <td class="py-4 text-right font-medium text-slate-700 font-mono">${fmt.format(r.totalSales)}</td>
+              <td class="py-4 text-right font-medium text-slate-700 font-mono">${fmt.format(r.totalSales || 0)}</td>
               <td class="py-4 text-right font-bold font-mono ${p>=0?'text-emerald-600':'text-rose-600'}">${fmt.format(p)}</td>
               <td class="py-4 text-center pr-8 no-print"><button onclick="openModal(${i})" class="text-slate-400 hover:text-blue-600 transition p-2 hover:bg-blue-50 rounded-lg"><i class="fas fa-eye"></i></button></td>`;
               tbody.appendChild(tr);
           });
+
           document.getElementById('kpi-revenue').innerText = fmt.format(rev);
           document.getElementById('kpi-profit').innerText = fmt.format(profit);
           document.getElementById('kpi-expenses').innerText = fmt.format(cost);
-          document.getElementById('kpi-count').innerText = data.length;
-          document.getElementById('rowCount').innerText = data.length;
-          renderCharts(data);
+          document.getElementById('kpi-count').innerText = salesData.length;
+          document.getElementById('rowCount').innerText = salesData.length;
+          renderCharts(salesData);
+      }
+
+      function filterSales() {
+          const textQuery = (document.getElementById('salesSearch').value || '').toLowerCase();
+          const lineQuery = (document.getElementById('lineFilter').value || '').toUpperCase();
+          const profitQuery = document.getElementById('profitFilter').value;
+          
+          const rows = document.getElementById('salesTableBody').getElementsByTagName('tr');
+          let visibleCount = 0;
+
+          for (let r of rows) {
+              const rowSearch = r.getAttribute('data-search') || '';
+              const rowLine = r.getAttribute('data-line') || '';
+              const rowProfit = r.getAttribute('data-profit') || '';
+
+              const matchText = !textQuery || rowSearch.includes(textQuery);
+              const matchLine = !lineQuery || rowLine === lineQuery;
+              const matchProfit = !profitQuery || rowProfit === profitQuery;
+
+              if (matchText && matchLine && matchProfit) {
+                  r.style.display = "";
+                  visibleCount++;
+              } else {
+                  r.style.display = "none";
+              }
+          }
+
+          document.getElementById('rowCount').innerText = visibleCount;
       }
 
       function openCalculator() { document.getElementById('calcModal').classList.add('show'); }
+      
       function calculateSmart() {
           let usd = parseFloat(document.getElementById('calc-usd').value)||0;
           let rate = parseFloat(document.getElementById('calc-rate').value)||0;
           let clearance = parseFloat(document.getElementById('calc-clearance').value)||0;
           let qty = parseFloat(document.getElementById('calc-qty').value)||1;
           let targetPrice = parseFloat(document.getElementById('calc-target').value);
+          
           let totalCost = (usd * rate) + clearance;
           let costPerUnit = totalCost / qty;
+          
           document.getElementById('res-total').innerText = fmt.format(totalCost);
           document.getElementById('res-unit').innerText = fmt.format(costPerUnit);
           document.getElementById('calc-result').classList.remove('hidden');
+          
           if (targetPrice > 0) {
               let profitPerUnit = targetPrice - costPerUnit;
               let totalProfit = profitPerUnit * qty;
@@ -251,38 +357,207 @@
           let expenses = (r.productCostGHS || 0) + (r.totalAmount || 0);
           let p = (r.totalSales || 0) - expenses;
           document.getElementById('modalTitleText').innerText = r.containerNo;
-          let html = `<div class="grid grid-cols-1 lg:grid-cols-12 gap-10"><div class="lg:col-span-5 space-y-8"><div><h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Logistics Profile</h4><div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 space-y-4 text-sm text-slate-600"><div class="flex justify-between border-b border-slate-200 pb-2"><span>B/L Number</span><span class="font-bold text-slate-900 font-mono">${r.billOfLading}</span></div><div class="flex justify-between border-b border-slate-200 pb-2"><span>Line</span><span class="font-bold text-slate-900">${r.shippingLine}</span></div><div class="flex justify-between border-b border-slate-200 pb-2"><span>Shipper</span><span class="font-bold text-slate-900">${r.shipper}</span></div><div class="flex justify-between pb-1"><span>Port</span><span class="font-bold text-slate-900">${r.port}</span></div></div></div><div><h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Inventory</h4><div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 space-y-4 text-sm text-slate-600"><div class="flex justify-between border-b border-slate-200 pb-2"><span>Product</span><span class="font-bold text-slate-900">${r.product}</span></div><div class="flex justify-between border-b border-slate-200 pb-2"><span>Quantity</span><span class="font-bold text-slate-900 font-mono">${r.quantity}</span></div><div class="flex justify-between pb-1"><span>Unit Price</span><span class="font-bold text-slate-900 font-mono">${fmt.format(r.unitPrice)}</span></div></div></div></div><div class="lg:col-span-7 bg-white p-8 rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/50"><h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Financial Ledger</h4><div class="space-y-4 text-sm"><div class="flex justify-between items-center"><span class="text-slate-600 font-medium">Import Product Cost</span><span class="font-bold text-slate-800 font-mono text-lg">${fmt.format(r.productCostGHS)}</span></div><div class="text-[11px] font-bold text-blue-500 text-right -mt-3 mb-2 bg-blue-50 inline-block ml-auto px-2 py-1 rounded">(${fmtUSD.format(r.costUSD)} @ ${r.rate})</div><div class="bg-slate-50 p-6 rounded-2xl border border-slate-100"><p class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">Logistics Breakdown</p><div class="grid grid-cols-2 gap-x-8 gap-y-3"><div class="flex justify-between border-b border-slate-200 pb-1"><span>Duty</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.duty)}</span></div><div class="flex justify-between border-b border-slate-200 pb-1"><span>Transport</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.transport)}</span></div><div class="flex justify-between border-b border-slate-200 pb-1"><span>Ship Line</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.shipLinePay)}</span></div><div class="flex justify-between border-b border-slate-200 pb-1"><span>GPHA</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.gpha)}</span></div><div class="flex justify-between border-b border-slate-200 pb-1"><span>FDA/Vet</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.fda)}</span></div><div class="flex justify-between border-b border-slate-200 pb-1"><span>Agent</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.agent)}</span></div><div class="flex justify-between border-b border-slate-200 pb-1"><span>Storage</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.storage)}</span></div><div class="flex justify-between border-b border-slate-200 pb-1"><span>Discharge</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.discharging)}</span></div></div>${r.demurrage > 0 ? `<div class="flex justify-between text-red-600 font-bold bg-red-50 px-3 py-2 rounded-lg mt-4 text-xs"><span>Demurrage Penalty</span><span>${fmt.format(r.demurrage)}</span></div>` : ''}<div class="flex justify-between pt-4 mt-2 font-bold text-orange-600 text-base"><span>Total Logistics</span><span class="font-mono">${fmt.format(r.totalAmount)}</span></div></div><div class="flex justify-between items-center pt-2"><span class="text-slate-500 font-bold">TOTAL EXPENSES</span><span class="font-bold text-slate-800 font-mono">${fmt.format(expenses)}</span></div><div class="flex justify-between items-center"><span class="text-slate-500 font-bold">TOTAL REVENUE</span><span class="font-bold text-blue-600 font-mono text-lg">${fmt.format(r.totalSales)}</span></div><div class="mt-6 p-6 rounded-2xl ${p>=0?'bg-emerald-50 border border-emerald-100':'bg-rose-50 border border-rose-100'} flex justify-between items-center shadow-inner"><span class="text-xs font-bold uppercase tracking-wider ${p>=0?'text-emerald-600':'text-rose-600'}">Net Profit</span><span class="text-3xl font-extrabold font-mono ${p>=0?'text-emerald-700':'text-rose-700'}">${fmt.format(p)}</span></div></div></div></div>`;
+          
+          let html = `
+          <div class="space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              <div class="lg:col-span-5 space-y-6">
+                <div>
+                  <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Logistics Profile</h4>
+                  <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 space-y-3 text-sm text-slate-600">
+                    <div class="flex justify-between border-b border-slate-200 pb-2"><span>B/L Number</span><span class="font-bold text-slate-900 font-mono">${r.billOfLading}</span></div>
+                    <div class="flex justify-between border-b border-slate-200 pb-2"><span>Line</span><span class="font-bold text-slate-900">${r.shippingLine}</span></div>
+                    <div class="flex justify-between border-b border-slate-200 pb-2"><span>Shipper</span><span class="font-bold text-slate-900">${r.shipper}</span></div>
+                    <div class="flex justify-between pb-1"><span>Port</span><span class="font-bold text-slate-900">${r.port}</span></div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Inventory Profile</h4>
+                  <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 space-y-3 text-sm text-slate-600">
+                    <div class="flex justify-between border-b border-slate-200 pb-2"><span>Product</span><span class="font-bold text-slate-900">${r.product}</span></div>
+                    <div class="flex justify-between border-b border-slate-200 pb-2"><span>Import Quantity</span><span class="font-bold text-slate-900 font-mono">${r.quantity}</span></div>
+                    <div class="flex justify-between pb-1"><span>Unit Price</span><span class="font-bold text-slate-900 font-mono">${fmt.format(r.unitPrice || 0)}</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="lg:col-span-7 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Financial Ledger</h4>
+                <div class="space-y-3 text-sm">
+                  <div class="flex justify-between items-center"><span class="text-slate-600 font-medium">Import Product Cost</span><span class="font-bold text-slate-800 font-mono text-base">${fmt.format(r.productCostGHS || 0)}</span></div>
+                  <div class="text-[11px] font-bold text-blue-500 text-right -mt-2 mb-2 bg-blue-50 inline-block ml-auto px-2 py-0.5 rounded">(${fmtUSD.format(r.costUSD || 0)} @ ${r.rate || 0})</div>
+                  
+                  <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-3 tracking-widest">Clearance & Logistics</p>
+                    <div class="grid grid-cols-2 gap-x-6 gap-y-2 text-xs">
+                      <div class="flex justify-between border-b border-slate-200 pb-1"><span>Duty</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.duty || 0)}</span></div>
+                      <div class="flex justify-between border-b border-slate-200 pb-1"><span>Transport</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.transport || 0)}</span></div>
+                      <div class="flex justify-between border-b border-slate-200 pb-1"><span>Ship Line</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.shipLinePay || 0)}</span></div>
+                      <div class="flex justify-between border-b border-slate-200 pb-1"><span>GPHA</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.gpha || 0)}</span></div>
+                      <div class="flex justify-between border-b border-slate-200 pb-1"><span>FDA/Vet</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.fda || 0)}</span></div>
+                      <div class="flex justify-between border-b border-slate-200 pb-1"><span>Agent</span><span class="font-mono text-slate-700 font-bold">${fmt.format(r.agent || 0)}</span></div>
+                    </div>
+                    <div class="flex justify-between pt-3 mt-2 font-bold text-orange-600 text-sm border-t border-slate-200"><span>Total Logistics</span><span class="font-mono">${fmt.format(r.totalAmount || 0)}</span></div>
+                  </div>
+
+                  <div class="flex justify-between items-center pt-2"><span class="text-slate-500 font-bold">TOTAL EXPENSES</span><span class="font-bold text-slate-800 font-mono">${fmt.format(expenses)}</span></div>
+                  <div class="flex justify-between items-center"><span class="text-slate-500 font-bold">TOTAL REVENUE</span><span class="font-bold text-blue-600 font-mono text-lg">${fmt.format(r.totalSales || 0)}</span></div>
+                  
+                  <div class="mt-4 p-4 rounded-2xl ${p>=0?'bg-emerald-50 border border-emerald-100':'bg-rose-50 border border-rose-100'} flex justify-between items-center">
+                    <span class="text-xs font-bold uppercase tracking-wider ${p>=0?'text-emerald-600':'text-rose-600'}">Net Profit</span>
+                    <span class="text-2xl font-extrabold font-mono ${p>=0?'text-emerald-700':'text-rose-700'}">${fmt.format(p)}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="containerSalesBreakdownSection" class="border-t border-slate-200 pt-6">
+              <div class="flex items-center justify-between mb-4">
+                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Customer Sales & Breakdown Ledger</h4>
+                <span class="text-xs text-blue-600 font-bold animate-pulse"><i class="fas fa-spinner fa-spin mr-1"></i> Checking Container Tab...</span>
+              </div>
+            </div>
+          </div>`;
+
           document.getElementById('modalBody').innerHTML = html;
           document.getElementById('detailModal').classList.add('show');
+
+          google.script.run
+            .withSuccessHandler(function(details) {
+              const target = document.getElementById('containerSalesBreakdownSection');
+              if (!target) return;
+
+              if (!details.found || !details.transactions.length) {
+                target.innerHTML = `
+                  <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-center text-xs text-slate-400 font-medium">
+                    No individual customer breakdown tab found for <strong>${r.containerNo}</strong>.
+                  </div>`;
+                return;
+              }
+
+              // Fallback sync to main manifest quantity if tab C3 is empty/zero
+              let targetTotalQty = details.totalQty > 0 ? details.totalQty : (r.quantity || 0);
+              let pctSold = targetTotalQty > 0 ? Math.min(100, Math.round((details.boxesSold / targetTotalQty) * 100)) : 0;
+
+              let txRowsHtml = details.transactions.map(tx => `
+                <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+                  <td class="py-3 px-4 font-medium text-slate-600 text-xs">${tx.date}</td>
+                  <td class="py-3 px-4 font-bold text-slate-800 text-xs">${tx.customer}</td>
+                  <td class="py-3 px-4 font-mono text-slate-700 text-xs text-right">${tx.quantity}</td>
+                  <td class="py-3 px-4 font-mono text-slate-700 text-xs text-right">${fmt.format(tx.pricePerCarton)}</td>
+                  <td class="py-3 px-4 font-mono font-bold text-blue-600 text-xs text-right">${fmt.format(tx.totalAmount)}</td>
+                  <td class="py-3 px-4 text-slate-400 text-xs truncate max-w-[150px]">${tx.notes}</td>
+                </tr>
+              `).join('');
+
+              target.innerHTML = `
+                <div class="bg-slate-900 text-white p-6 rounded-2xl mb-6 shadow-xl">
+                  <div class="flex flex-wrap justify-between items-center gap-4 mb-4">
+                    <div>
+                      <span class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Inventory Balance</span>
+                      <h5 class="text-lg font-extrabold font-mono mt-0.5">${details.boxesSold} / ${targetTotalQty} Boxes Sold (${pctSold}%)</h5>
+                    </div>
+                    <div class="flex gap-4">
+                      <div class="text-right">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold">Qty Remaining</span>
+                        <p class="text-sm font-bold font-mono ${details.qtyLeft > 0 ? 'text-orange-400' : 'text-emerald-400'}">${details.qtyLeft} Left</p>
+                      </div>
+                      ${details.shortage > 0 ? `
+                      <div class="text-right border-l border-slate-700 pl-4">
+                        <span class="text-[10px] text-rose-400 uppercase font-bold">Shortage</span>
+                        <p class="text-sm font-bold font-mono text-rose-400">${fmt.format(details.shortage)}</p>
+                      </div>` : ''}
+                    </div>
+                  </div>
+                  
+                  <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
+                    <div class="bg-blue-500 h-full rounded-full transition-all duration-500" style="width: ${pctSold}%"></div>
+                  </div>
+                </div>
+
+                <div class="card overflow-hidden border border-slate-200">
+                  <div class="px-5 py-3 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
+                    <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">Customer Sales Transactions</span>
+                    <span class="text-xs font-mono text-slate-400">${details.transactions.length} Buyers</span>
+                  </div>
+                  <div class="overflow-x-auto max-h-[300px]">
+                    <table class="w-full text-left border-collapse">
+                      <thead class="bg-white">
+                        <tr>
+                          <th class="px-4 py-3 text-[10px] text-slate-400 font-bold uppercase">Date</th>
+                          <th class="px-4 py-3 text-[10px] text-slate-400 font-bold uppercase">Customer</th>
+                          <th class="px-4 py-3 text-[10px] text-slate-400 font-bold uppercase text-right">Qty</th>
+                          <th class="px-4 py-3 text-[10px] text-slate-400 font-bold uppercase text-right">Rate</th>
+                          <th class="px-4 py-3 text-[10px] text-slate-400 font-bold uppercase text-right">Total</th>
+                          <th class="px-4 py-3 text-[10px] text-slate-400 font-bold uppercase">Payment Breakdown</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-100 bg-white">
+                        ${txRowsHtml}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>`;
+            })
+            .getContainerSalesDetails(r.containerNo);
       }
 
       function loadIncomingData() {
          document.getElementById('incomingTableBody').innerHTML = '<tr><td colspan="6" class="p-8 text-center text-slate-400">Loading...</td></tr>';
-         google.script.run.withSuccessHandler(renderIncoming).getIncomingData();
+         google.script.run
+          .withSuccessHandler(renderIncoming)
+          .withFailureHandler(err => {
+            console.error("Failed to load incoming data:", err);
+            document.getElementById('incomingTableBody').innerHTML = '<tr><td colspan="6" class="p-8 text-center text-slate-400">Error loading incoming records</td></tr>';
+          })
+          .getIncomingData();
       }
+
       function renderIncoming(data) {
-         const tbody = document.getElementById('incomingTableBody'); tbody.innerHTML = '';
-         if(!data || !data.length) { tbody.innerHTML='<tr><td colspan="6" class="p-8 text-center text-slate-400">No Incoming Data</td></tr>'; return; }
+         const tbody = document.getElementById('incomingTableBody'); 
+         tbody.innerHTML = '';
+         if(!data || !data.length) { 
+           tbody.innerHTML='<tr><td colspan="6" class="p-8 text-center text-slate-400">No Incoming Data</td></tr>'; 
+           document.getElementById('inc-count').innerText = 0; 
+           document.getElementById('inc-action').innerText = 0;
+           document.getElementById('inc-next').innerText = "--"; 
+           document.getElementById('inc-next-c').innerText = "--";
+           return; 
+         }
+         
          let enRoute=0, atPort=0, next="--", nextC="--";
          let future = data.filter(d => !d.arrived && !d.cleared && d.daysLeft >= 0);
          if(future.length) { next=future[0].eta; nextC=future[0].containerNo; }
+         
          data.forEach(r => {
              if(r.arrived && !r.cleared) atPort++; else if(!r.cleared) enRoute++;
              let badge = r.cleared ? '<span class="badge bg-emerald-50 text-emerald-600 border border-emerald-100">CLEARED</span>' : (r.arrived ? '<span class="badge bg-orange-50 text-orange-600 border border-orange-100"><i class="fas fa-anchor mr-1"></i> AT PORT</span>' : `<span class="badge bg-blue-50 text-blue-600 border border-blue-100"><i class="fas fa-water mr-1"></i> SAILING (${r.daysLeft}d)</span>`);
-             tbody.innerHTML += `<tr class="border-b border-gray-100 hover:bg-gray-50 transition"><td class="pl-8 py-4">${badge}</td><td class="py-4 font-bold text-slate-700">${r.eta}</td><td class="px-6 py-4"><div class="font-bold text-slate-800 font-mono">${r.containerNo}</div><div class="text-[10px] text-slate-400 font-medium uppercase mt-0.5 tracking-wider">${r.blNo}</div></td><td class="py-4"><div class="font-medium text-slate-700">${r.product}</div><div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">${r.brand}</div></td><td class="px-6 py-4 font-bold text-slate-700 text-xs uppercase">${r.shippingLine}</td><td class="pr-8 py-4 text-slate-500 text-sm">${r.country}</td></tr>`;
+             
+             let tr = document.createElement('tr');
+             tr.className = "border-b border-gray-100 hover:bg-gray-50 transition";
+             tr.innerHTML = `<td class="pl-8 py-4">${badge}</td><td class="py-4 font-bold text-slate-700">${r.eta}</td><td class="px-6 py-4"><div class="font-bold text-slate-800 font-mono">${r.containerNo}</div><div class="text-[10px] text-slate-400 font-medium uppercase mt-0.5 tracking-wider">${r.blNo}</div></td><td class="py-4"><div class="font-medium text-slate-700">${r.product}</div><div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">${r.brand}</div></td><td class="px-6 py-4 font-bold text-slate-700 text-xs uppercase">${r.shippingLine}</td><td class="pr-8 py-4 text-slate-500 text-sm">${r.country}</td>`;
+             tbody.appendChild(tr);
          });
-         document.getElementById('inc-count').innerText = enRoute; document.getElementById('inc-action').innerText = atPort;
-         document.getElementById('inc-next').innerText = next; document.getElementById('inc-next-c').innerText = nextC;
+         
+         document.getElementById('inc-count').innerText = enRoute; 
+         document.getElementById('inc-action').innerText = atPort;
+         document.getElementById('inc-next').innerText = next; 
+         document.getElementById('inc-next-c').innerText = nextC;
       }
 
-      let rateChartInstance = null; let lineChartInstance = null;
+      let rateChartInstance = null; 
+      let lineChartInstance = null;
+      
       function renderCharts(data) {
-        if(rateChartInstance) rateChartInstance.destroy();
-        if(lineChartInstance) lineChartInstance.destroy();
-        const dates = data.map(r=>r.date.substring(5)).reverse(); 
-        const rates = data.map(r=>r.rate).reverse();
+        if(rateChartInstance) { rateChartInstance.destroy(); rateChartInstance = null; }
+        if(lineChartInstance) { lineChartInstance.destroy(); lineChartInstance = null; }
+
+        if(!data || !data.length) return;
+
+        const dates = data.map(r=> (r.date || "").substring(5)).reverse(); 
+        const rates = data.map(r=>r.rate || 0).reverse();
         
-        // RATE CHART with Gradient
         const ctx1 = document.getElementById('rateChart').getContext('2d');
         const gradient1 = ctx1.createLinearGradient(0, 0, 0, 400);
         gradient1.addColorStop(0, 'rgba(79, 70, 229, 0.2)');
@@ -294,15 +569,16 @@
             options: { 
                 responsive: true, maintainAspectRatio: false, 
                 interaction: { mode: 'index', intersect: false }, 
-                plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0f172a', titleFont: { family: 'Plus Jakarta Sans' }, bodyFont: { family: 'Plus Jakarta Sans' }, padding: 12, displayColors: false, callbacks: { label: c => 'Rate: GHS ' + c.parsed.y.toFixed(2) } } }, 
+                plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0f172a', titleFont: { family: 'Plus Jakarta Sans' }, bodyFont: { family: 'Plus Jakarta Sans' }, padding: 12, displayColors: false, callbacks: { label: c => 'Rate: GHS ' + Number(c.parsed.y).toFixed(2) } } }, 
                 scales: { x: { display: false }, y: { grid: { borderDash: [4, 4], color: '#f1f5f9' }, ticks: { font: { family: 'Plus Jakarta Sans', size: 10 } } } } 
             }
         });
         
-        // MONTHLY P&L TREND
         const sortedData = [...data].sort((a,b) => new Date(a.date) - new Date(b.date));
         const monthlyStats = {};
+        
         sortedData.forEach(r => {
+            if(!r.date) return;
             const monthKey = r.date.substring(0, 7); 
             if (!monthlyStats[monthKey]) monthlyStats[monthKey] = { rev: 0, cost: 0, profit: 0 };
             let expense = (r.productCostGHS || 0) + (r.totalAmount || 0);
@@ -316,7 +592,8 @@
         const mCost = mLabels.map(k => monthlyStats[k].cost);
         const mProfit = mLabels.map(k => monthlyStats[k].profit);
 
-        lineChartInstance = new Chart(document.getElementById('lineChart'), { 
+        const ctx2 = document.getElementById('lineChart').getContext('2d');
+        lineChartInstance = new Chart(ctx2, { 
             type: 'bar', 
             data: { 
                 labels: mLabels, 
@@ -333,12 +610,6 @@
                 scales: { x: { grid: { display: false } }, y: { grid: { borderDash: [4, 4], color: '#f1f5f9' }, ticks: { callback: v => (v/1000) + 'k', font: { family: 'Plus Jakarta Sans', size: 10 } } } } 
             } 
         });
-      }
-      
-      function filterSales() {
-          let t = document.getElementById('salesSearch').value.toLowerCase();
-          let rows = document.getElementById('salesTableBody').getElementsByTagName('tr');
-          for(let r of rows) { r.style.display = r.innerText.toLowerCase().includes(t) ? "" : "none"; }
       }
     </script>
 </body>
